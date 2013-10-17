@@ -22,8 +22,12 @@ for opt, val in opts:
 
 duplicateSubjectName = args[0];
 
-duplicateSubject = wave.open(duplicateSubjectName,'r')
-duplcateResult = wave.open(duplicateSubjectName.replace('.wav','') + 'x' + str(timescount) + '.wav','wb')
+try:
+	duplicateSubject = wave.open(duplicateSubjectName,'r')
+	duplcateResult = wave.open(duplicateSubjectName.replace('.wav','') + 'x' + str(timescount) + '.wav','wb')
+except IOError as e:
+	print str(e)
+	exit(2)
 duplcateResult.setparams(duplicateSubject.getparams())
 
 for i in range (0,timescount):
