@@ -23,11 +23,13 @@ for opt, val in opts:
 			exit(2)
 
 duplicateSubjects = [];
+duplicateSubjectNames= [];
+
 try:
 	for name in args:
 		duplicateSubjects.append(wave.open(name,'r'))
-#	duplicateSubject = wave.open(duplicateSubjectName,'r')
-	duplcateResult = wave.open(args[0].replace('.wav','') + 'x' + str(timescount) + '.wav','wb')
+		duplicateSubjectNames.append(name.split('/')[-1].replace('.wav',''))
+	duplcateResult = wave.open('+'.join(duplicateSubjectNames)+ 'x' + str(timescount) + '.wav','wb')
 except IOError as e:
 	print str(e)
 	exit(2)
