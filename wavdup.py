@@ -1,4 +1,4 @@
-import sys,wave
+import sys,getopt,wave
 
 def writeWav(duplcateResult, duplicateSubject):
 	while(1):
@@ -10,12 +10,17 @@ def writeWav(duplcateResult, duplicateSubject):
 	duplicateSubject.rewind()
 	return duplcateResult	
 
+opts, args = getopt.getopt(sys.argv[1:], "n:")
 
-duplicateSubjectName = sys.argv[1]
-try:
-	timescount = int(sys.argv[2])
-except IndexError:
-	timescount = 2
+for opt, val in opts:
+	if opt == '-n':
+		try:
+			timescount = int(val)
+		except ValueError:
+			print "timescount (-n) must be an integer"
+			exit(2)
+
+duplicateSubjectName = args[0];
 
 duplicateSubject = wave.open(duplicateSubjectName,'r')
 duplcateResult = wave.open(duplicateSubjectName.replace('.wav','') + 'x' + str(timescount) + '.wav','wb')
@@ -23,5 +28,3 @@ duplcateResult.setparams(duplicateSubject.getparams())
 
 for i in range (0,timescount):
 	duplcateResult = writeWav(duplcateResult, duplicateSubject)
-
-
