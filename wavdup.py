@@ -12,9 +12,12 @@ def writeWav(duplcateResult, duplicateSubjects):
 		duplicateSubject.rewind()
 	return duplcateResult	
 
-opts, args = getopt.getopt(sys.argv[1:], "n:")
+outputdir = '.'
+opts, args = getopt.getopt(sys.argv[1:], "n:d:")
 
 for opt, val in opts:
+	if opt == '-d':
+		outputdir = val
 	if opt == '-n':
 		try:
 			timescount = int(val)
@@ -29,7 +32,9 @@ try:
 	for name in args:
 		duplicateSubjects.append(wave.open(name,'r'))
 		duplicateSubjectNames.append(name.split('/')[-1].replace('.wav',''))
-	duplcateResult = wave.open('+'.join(duplicateSubjectNames)+ 'x' + str(timescount) + '.wav','wb')
+
+	duplicateResultName = outputdir + '/' + '+'.join(duplicateSubjectNames) + 'x' + str(timescount) + '.wav'
+	duplcateResult = wave.open(duplicateResultName,'wb')
 except IOError as e:
 	print str(e)
 	exit(2)
@@ -39,4 +44,4 @@ duplcateResult.setparams(duplicateSubjects[0].getparams())
 for i in range (0,timescount):
 	duplcateResult = writeWav(duplcateResult, duplicateSubjects)
 
-print "written " + str(duplcateResult.getnframes()) + " frames"
+print "written " + str(duplcateResult.getnframes()) + " frames to " + duplicateResultName
