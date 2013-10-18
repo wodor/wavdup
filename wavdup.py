@@ -1,5 +1,8 @@
+#!/usr/bin/env python
 import sys,getopt,wave
-
+def help():
+	help = "Usage:  wavdup.py wav1 [wav n ...] [-n repeat count] [-d output dir]"
+	return	help 
 def writeWav(duplcateResult, duplicateSubjects):
 	for duplicateSubject in duplicateSubjects:
 		while(1):
@@ -13,6 +16,7 @@ def writeWav(duplcateResult, duplicateSubjects):
 	return duplcateResult	
 
 outputdir = '.'
+timescount = 1
 opts, args = getopt.getopt(sys.argv[1:], "n:d:")
 
 for opt, val in opts:
@@ -22,8 +26,12 @@ for opt, val in opts:
 		try:
 			timescount = int(val)
 		except ValueError:
-			print "timescount (-n) must be an integer"
+			print "repeat count (-n) must be an integer"
 			exit(2)
+
+if len(args) < 1:
+	print help()
+	exit(2)
 
 duplicateSubjects = [];
 duplicateSubjectNames= [];
